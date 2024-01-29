@@ -1,4 +1,37 @@
-.PHONY: all services config clean
+TARGET		:= secbot
+
+.PHONY: all services config clean help distclean
+
+define MANPAGE
+.TH secbot 7
+.SH NAME
+secbot \- Experiments in launching bitlbee, znc, and eggdrop/pyirc bots. Client side can be anything thanks to bitlbee.
+.SH SERVICES
+.B corrupt
+[\fBbridge\fR \fIbitlbee irc with libpurple\fR]
+[\fBbouncer\fR \fIznc bouncer\fR]
+[\fBbot\fR \fIeggdrop service\fR]
+.IR file ...
+.SH DESCRIPTION
+.B secbot
+Experiments in launching bitlbee, znc, and eggdrop/pyirc bots. Client side can be anything thanks to bitlbee.
+Further bots can be added using python-irc and attached to the default user created via bouncer.
+.SH PORTS
+.TP
+.BR 6697 ", " 8443 =\fITCP\fR
+Znc irc and webadmin ports.
+.BR 6667 =\fITCP\fR
+bitlbee cleartext port
+.BR 3000 =\fITCP\fR
+eggdrop control port
+.SH SOURCES
+.TP
+https://github.com/denzuko/radical-docker/view/master/secbot/Makefile
+.SH AUTHORS
+\fBDwight Spencer\fR \fI@denzuko@mastodon.social\fR
+
+endef
+export MANPAGE
 
 define COMPOSEYAML
 ---
@@ -67,7 +100,14 @@ services:
 endef
 export COMPOSEYAML
 
+
 all: config services
+
+help: $(TARGET).man
+	@- cat $< | man /dev/stdin
+
+$(TARGET).man:
+	@- echo "$$MANPAGE" > $@
 
 docker-compose.yml:
         @- echo "$$COMPOSEYAML" > $@
@@ -82,3 +122,6 @@ config:
 
 clean: docker-compose.yml
         @- docker compose down
+
+distclean: clean
+	@- rm @(TARGET).man docker-compose.yml
