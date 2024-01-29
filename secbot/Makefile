@@ -1,7 +1,11 @@
+#!/bin/env make
+
+## Defaults
 TARGET		:= secbot
+NICKNAME	:= changeme
+PASSWORD	:= notsecretscoob
 
-.PHONY: all services config clean help distclean
-
+## TEMPLATES
 define MANPAGE
 .TH secbot 7
 .SH NAME
@@ -79,9 +83,9 @@ services:
       restart_policy:
         condition: always
     environment:
-      SERVER: "bouncer.local +6697 secret"
-      NICK: "sentinal"
-      CHANNELS: '#test'
+      SERVER: "bouncer.local +6697 $(PASSWORD)"
+      NICK: $(NICKNAME)
+      CHANNELS: '&bitlbee'
     volumes:
       - ./data/spool/eggdrop/data:/home/eggdrop/eggdrop/data
       - ./data/spool/eggdrop/scripts:/home/eggdrop/eggdrop/scripts2
@@ -100,6 +104,9 @@ services:
 endef
 export COMPOSEYAML
 
+## Rules:
+
+.PHONY: all services config clean help distclean
 
 all: config services
 
@@ -110,18 +117,18 @@ $(TARGET).man:
 	@- echo "$$MANPAGE" > $@
 
 docker-compose.yml:
-        @- echo "$$COMPOSEYAML" > $@
+	@- echo "$$COMPOSEYAML" > $@
 
 data/spool/znc-data: config
 
 services: docker-compose.yml data/spool/znc-data
-        @- docker compose up -d
+	@- docker compose up -d
 
 config:
-        @-  docker run -it -v ./data/spool/znc-data:/znc-data znc --makeconf
+	@-  docker run -it -v ./data/spool/znc-data:/znc-data znc --makeconf
 
 clean: docker-compose.yml
-        @- docker compose down
+	@- docker compose down
 
 distclean: clean
 	@- rm @(TARGET).man docker-compose.yml
