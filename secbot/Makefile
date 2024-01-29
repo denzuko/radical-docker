@@ -9,27 +9,39 @@ PASSWORD	:= notsecretscoob
 define MANPAGE
 .TH secbot 7
 .SH NAME
-secbot \- Experiments in launching bitlbee, znc, and eggdrop/pyirc bots. Client side can be anything thanks to bitlbee.
+secbot \- Experiments in launching bitlbee, znc, and eggdrop/pyirc bots.
 .SH SERVICES
-.B corrupt
-[\fBbridge\fR \fIbitlbee irc with libpurple\fR]
-[\fBbouncer\fR \fIznc bouncer\fR]
-[\fBbot\fR \fIeggdrop service\fR]
-.IR file ...
+.TP
+.BR \fBbridge\fR \fIbitlbee irc with libpurple\fR
+.TP
+.BR \fBbouncer\fR \fIznc bouncer\fR
+.TP
+.BR \fBbot\fR \fIeggdrop service\fR
 .SH DESCRIPTION
 .B secbot
-Experiments in launching bitlbee, znc, and eggdrop/pyirc bots. Client side can be anything thanks to bitlbee.
+builds a service stack for launching bitlbee, znc, and eggdrop/pyirc bots. Client side can be anything thanks to bitlbee.
 Further bots can be added using python-irc and attached to the default user created via bouncer.
+.SH GOALS
+Create a release pipeline that uses Make, man, and docker-compose to deploy chatbots within a private network
+which can interface with external chat channels.
+.SH ENVIRONMENT VARIABLES
+.TP
+.BR NICKNAME =\fIstring\fR
+Znc irc nickname for your bot that should include the '/<network>' created doing config.
+.TP
+.BR PASSWORD =\fIstring\fR
+Znc irc password for your bot
 .SH PORTS
 .TP
 .BR 6697 ", " 8443 =\fITCP\fR
 Znc irc and webadmin ports.
+.TP
 .BR 6667 =\fITCP\fR
 bitlbee cleartext port
+.TP
 .BR 3000 =\fITCP\fR
 eggdrop control port
 .SH SOURCES
-.TP
 https://github.com/denzuko/radical-docker/view/master/secbot/Makefile
 .SH AUTHORS
 \fBDwight Spencer\fR \fI@denzuko@mastodon.social\fR
