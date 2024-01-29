@@ -143,4 +143,4 @@ clean: docker-compose.yml
 	@- docker compose down
 
 distclean: clean
-	@- rm @(TARGET).man docker-compose.yml
+	@- rm $(TARGET).man docker-compose.yml
