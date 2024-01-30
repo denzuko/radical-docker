@@ -12,11 +12,11 @@ define MANPAGE
 secbot \- Experiments in launching bitlbee, znc, and eggdrop/pyirc bots.
 .SH SERVICES
 .TP
-.BR \fBbridge\fR\ \fIbitlbee\ irc\ with\ libpurple\fR
+.BR \fBbridge\fR\ \- \ \fIbitlbee\ irc\ with\ libpurple\fR
 .TP
-.BR \fBbouncer\fR \fIznc\ bouncer\fR
+.BR \fBbouncer\fR\ \- \ \fIznc\ bouncer\fR
 .TP
-.BR \fBbot\fR\ \fIeggdrop\ service\fR
+.BR \fBbot\fR\ \- \ \fIeggdrop\ service\fR
 .SH DESCRIPTION
 .B secbot
 builds a service stack for launching bitlbee, znc, and eggdrop/pyirc bots. Client side can be anything thanks to bitlbee.
